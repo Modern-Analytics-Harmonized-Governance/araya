@@ -1,0 +1,36 @@
+{
+  "name": "araya",
+  "version": "1.0.0",
+  "description": "ARAYA — Multi-agent AI DevOps team extension for pi. Spec-Driven Development, BDD, TDD with a full team of specialized agents.",
+  "keywords": [
+    "pi-package",
+    "araya",
+    "agents",
+    "sdd",
+    "bdd",
+    "tdd",
+    "devops",
+    "project-management",
+    "cybersecurity",
+    "ai-team"
+  ],
+  "author": "The Data Professor",
+  "license": "MIT",
+  "pi": {
+    "extensions": ["./extensions/araya"],
+    "skills": ["./skills"],
+    "prompts": ["./prompts"]
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.1"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^25.9.1",
+    "typescript": "^6.0.3"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/cli.ts"
+  }
+}

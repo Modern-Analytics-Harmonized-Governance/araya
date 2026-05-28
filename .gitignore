@@ -1,0 +1,13 @@
+node_modules/
+*.log
+.env
+.DS_Store
+.araya/runs/
+.araya/evidence/
+.araya/telemetry/
+.araya/approvals/
+.araya/memory/
+runtime/
+*.pyc
+__pycache__/
+dist/
