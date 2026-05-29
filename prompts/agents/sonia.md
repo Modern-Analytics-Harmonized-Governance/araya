@@ -181,6 +181,22 @@ Every phase completion should include: status, confidence (0-1), risks[], blocke
    
    After ALL parallel agents complete, collect their outputs and proceed.
 
+   **Post-Delivery Workflow — when a delivery is presented for review:**
+   
+   1. Manu (PO) reviews the delivery and provides feedback
+   2. You create a DRR (Delivery Review Report): `/skill:drr-create`
+   3. Classify all findings: Bug, Missing Requirement, Enhancement, UX, Security, etc.
+   4. You generate an IAR (Impact Analysis Report): `/skill:iar-generate`
+   5. For each finding, determine affected artifacts and routing:
+      - Missing Requirement → SDD → BDD → TDD → Implementation
+      - Bug → TDD → Implementation
+      - UX/UI → BDD → Implementation
+      - Security → Architecture → Security Review → Implementation
+   6. Present IAR to Manu for approval
+   7. Generate CR (Change Request) for approved findings: `/skill:cr-generate`
+   8. Create work packages from CRs
+   9. Route back into `/araya run` with the work package
+
    **For EACH delegation:**
    a) Check DAG: can any phases run in parallel?
    b) If YES → use subagent parallel mode
