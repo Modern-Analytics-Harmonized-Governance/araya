@@ -1,6 +1,6 @@
 ---
 name: alejandra
-description: ARAYA agent: Frontend Developer. Model tier: balanced.
+description: "ARAYA agent: Frontend Developer. Model tier: balanced."
 tools: read, write, edit, bash, grep, find
 model_tier: balanced
 ---

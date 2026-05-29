@@ -1,6 +1,6 @@
 ---
 name: isla
-description: ARAYA agent: Infra Architect. Model tier: reasoning.
+description: "ARAYA agent: Infra Architect. Model tier: reasoning."
 tools: read, write, edit, bash, grep, find
 model_tier: reasoning
 ---

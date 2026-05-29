@@ -1,6 +1,6 @@
 ---
 name: sofia
-description: ARAYA agent: AI Assistant. Model tier: fast.
+description: "ARAYA agent: AI Assistant. Model tier: fast."
 tools: read, grep, find
 model_tier: fast
 ---

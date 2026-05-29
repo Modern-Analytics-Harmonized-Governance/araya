@@ -1,6 +1,6 @@
 ---
 name: bernabe
-description: ARAYA agent: Data Engineer. Model tier: balanced.
+description: "ARAYA agent: Data Engineer. Model tier: balanced."
 tools: read, write, edit, bash, grep, find
 model_tier: balanced
 ---

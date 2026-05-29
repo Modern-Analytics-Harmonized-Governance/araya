@@ -1,6 +1,6 @@
 ---
 name: teresa
-description: ARAYA agent: QA Engineer. Model tier: balanced.
+description: "ARAYA agent: QA Engineer. Model tier: balanced."
 tools: read, write, edit, bash, grep, find
 model_tier: balanced
 ---

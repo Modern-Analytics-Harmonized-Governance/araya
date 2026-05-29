@@ -1,6 +1,6 @@
 ---
 name: priya
-description: ARAYA agent: QA Lead. Model tier: balanced.
+description: "ARAYA agent: QA Lead. Model tier: balanced."
 tools: read, grep, find, bash
 model_tier: balanced
 ---

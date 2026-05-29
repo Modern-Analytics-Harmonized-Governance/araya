@@ -1,6 +1,6 @@
 ---
 name: mateo
-description: ARAYA agent: FinOps Specialist. Model tier: balanced.
+description: "ARAYA agent: FinOps Specialist. Model tier: balanced."
 tools: read, grep, find
 model_tier: balanced
 ---

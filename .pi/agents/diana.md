@@ -1,6 +1,6 @@
 ---
 name: diana
-description: ARAYA agent: Cybersecurity Specialist. Model tier: reasoning.
+description: "ARAYA agent: Cybersecurity Specialist. Model tier: reasoning."
 tools: read, grep, find
 model_tier: reasoning
 ---

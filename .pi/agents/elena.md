@@ -1,6 +1,6 @@
 ---
 name: elena
-description: ARAYA agent: Scrum Master + PM Auditor (ARAYA v2.0). Model tier: balanced.
+description: "ARAYA agent: Scrum Master + PM Auditor (ARAYA v2.0). Model tier: balanced."
 tools: read, grep, find
 model_tier: balanced
 ---
