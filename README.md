@@ -68,23 +68,28 @@ All coordinated. All traceable. All through a single pi session.
 ## 📸 ARAYA in Action
 
 <p align="center">
-  <img src=".araya/ss/araya-ss01.png" alt="Sonia orchestrating a delivery plan" width="90%" />
-  <br/><em>Sonia orchestrates a full delivery plan with governance checks</em>
+  <img src=".araya/ss/araya-plan.png" alt="Sonia orchestrating delivery plan" width="90%" />
+  <br/><em>Sonia orchestrates the full delivery plan — phases, governance, delegation chain</em>
 </p>
 
 <p align="center">
-  <img src=".araya/ss/araya-ss02.png" alt="SDD — Software Design Document" width="90%" />
-  <br/><em>SDD phase — architecture, boundaries, workflows, entities defined</em>
+  <img src=".araya/ss/araya-sdd.png" alt="SDD — Software Design Document" width="90%" />
+  <br/><em>SDD phase — architecture, boundaries, workflows, entities, APIs, permissions</em>
 </p>
 
 <p align="center">
-  <img src=".araya/ss/araya-ss03.png" alt="BDD — Behavior-Driven Development" width="90%" />
-  <br/><em>BDD phase — Gherkin scenarios covering user flows and exceptions</em>
+  <img src=".araya/ss/araya-bdd.png" alt="BDD — Gherkin scenarios" width="90%" />
+  <br/><em>BDD phase — Gherkin scenarios covering user flows, exceptions, lifecycle</em>
 </p>
 
 <p align="center">
-  <img src=".araya/ss/araya-ss04.png" alt="TDD and proactive status" width="90%" />
-  <br/><em>TDD phase complete — Sonia proactively reports delegation status without being asked</em>
+  <img src=".araya/ss/araya-tdd.png" alt="TDD — Test definitions" width="90%" />
+  <br/><em>TDD phase — validations, integration tests, regression suites defined</em>
+</p>
+
+<p align="center">
+  <img src=".araya/ss/araya-status.png" alt="Proactive status reporting" width="90%" />
+  <br/><em>Sonia proactively reports delegation status — Phase breakdown, blockers, forecast</em>
 </p>
 
 ## 🏗 Architecture
