@@ -533,6 +533,31 @@ export default function (pi: ExtensionAPI) {
     },
   });
 
+  // ── /araya:review-delivery ────────────────────────────────────────────────
+
+  pi.registerCommand("araya:review-delivery", {
+    description: "📋 Create Delivery Review Report (DRR) for post-delivery feedback",
+    handler: async (args, ctx) => {
+      const deliveryId = args?.trim() || "latest";
+
+      const soniaPrompt = buildAgentPrompt(config, "sonia", [
+        `## Post-Delivery Review`,
+        ``,
+        `**Delivery ID:** ${deliveryId}`,
+        ``,
+        `1. Create a DRR (Delivery Review Report) for this delivery`,
+        `2. Classify all findings by category and severity`,
+        `3. Generate an IAR (Impact Analysis Report)`,
+        `4. Route findings to affected artifacts`,
+        `5. Present recommendations to Manu for approval`,
+        ``,
+        `Save artifacts to .araya/reviews/drr/ and .araya/reviews/iar/`,
+      ].join("\n"));
+
+      pi.sendUserMessage(soniaPrompt);
+    },
+  });
+
   // ── Log ─────────────────────────────────────────────────────────────────
 
   if (process.env.ARAYA_DEBUG) {
