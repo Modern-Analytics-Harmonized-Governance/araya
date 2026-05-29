@@ -1,4 +1,4 @@
-<svg width="572" height="300" viewBox="0 0 572 572" xmlns="http://www.w3.org/2000/svg">
+<svg width="572" height="572" viewBox="0 0 572 572" xmlns="http://www.w3.org/2000/svg">
   <style>
     :root {
       --brand-dark: #071B2C;
@@ -7,20 +7,20 @@
     }
   </style>
 
-  <rect width="572" height="300" rx="40" fill="var(--brand-dark)"/>
+  <rect width="572" height="572" rx="40" fill="var(--brand-dark)"/>
 
 
 
-  <path d="M30 240 
-         C140 190, 240 270, 330 240 
-         S450 200, 540 240"
+  <path d="M30 340 
+         C140 290, 240 370, 330 340 
+         S450 300, 540 340"
       fill="none"
       stroke="var(--brand-accent)"
       stroke-width="20"
       stroke-linecap="round"
       stroke-linejoin="round"/>
   
-  <text x="30" y="200"
+  <text x="30" y="320"
         font-family="Inter, Montserrat, Arial, sans-serif"
         font-size="150"
         font-weight="700"
