@@ -1,6 +1,6 @@
 ---
 name: aquila
-description: ARAYA agent: Static Site Engineer. Model tier: balanced.
+description: "ARAYA agent: Static Site Engineer. Model tier: balanced."
 tools: read, write, edit, bash, grep, find
 model_tier: balanced
 ---

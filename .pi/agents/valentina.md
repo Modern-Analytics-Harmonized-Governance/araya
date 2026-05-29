@@ -1,6 +1,6 @@
 ---
 name: valentina
-description: ARAYA agent: Backend Developer. Model tier: balanced.
+description: "ARAYA agent: Backend Developer. Model tier: balanced."
 tools: read, write, edit, bash, grep, find
 model_tier: balanced
 ---

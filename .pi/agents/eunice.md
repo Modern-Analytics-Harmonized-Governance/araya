@@ -1,6 +1,6 @@
 ---
 name: eunice
-description: ARAYA agent: Educational Designer. Model tier: balanced.
+description: "ARAYA agent: Educational Designer. Model tier: balanced."
 tools: read, write, edit
 model_tier: balanced
 ---

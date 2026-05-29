@@ -1,6 +1,6 @@
 ---
 name: esteban
-description: ARAYA agent: Knowledge Manager. Model tier: balanced.
+description: "ARAYA agent: Knowledge Manager. Model tier: balanced."
 tools: read, write, edit
 model_tier: balanced
 ---

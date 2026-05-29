@@ -1,6 +1,6 @@
 ---
 name: dorcas
-description: ARAYA agent: Brand Governance Lead. Model tier: balanced.
+description: "ARAYA agent: Brand Governance Lead. Model tier: balanced."
 tools: read, grep, find
 model_tier: balanced
 ---

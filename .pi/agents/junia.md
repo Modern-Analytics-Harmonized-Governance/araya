@@ -1,6 +1,6 @@
 ---
 name: junia
-description: ARAYA agent: Data Platform Architect. Model tier: reasoning.
+description: "ARAYA agent: Data Platform Architect. Model tier: reasoning."
 tools: read, grep, find
 model_tier: reasoning
 ---

@@ -1,6 +1,6 @@
 ---
 name: lin
-description: ARAYA agent: Frontend Architect. Model tier: reasoning.
+description: "ARAYA agent: Frontend Architect. Model tier: reasoning."
 tools: read, grep, find
 model_tier: reasoning
 ---

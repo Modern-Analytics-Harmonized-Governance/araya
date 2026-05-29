@@ -1,6 +1,6 @@
 ---
 name: lidia
-description: ARAYA agent: Profitability Analyst. Model tier: reasoning.
+description: "ARAYA agent: Profitability Analyst. Model tier: reasoning."
 tools: read, grep, find
 model_tier: reasoning
 ---

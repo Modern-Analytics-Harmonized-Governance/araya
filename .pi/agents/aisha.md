@@ -1,6 +1,6 @@
 ---
 name: aisha
-description: ARAYA agent: Backend Architect. Model tier: reasoning.
+description: "ARAYA agent: Backend Architect. Model tier: reasoning."
 tools: read, grep, find
 model_tier: reasoning
 ---

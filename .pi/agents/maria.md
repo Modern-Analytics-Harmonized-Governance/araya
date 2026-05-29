@@ -1,6 +1,6 @@
 ---
 name: maria
-description: ARAYA agent: AI/ML Engineer. Model tier: reasoning.
+description: "ARAYA agent: AI/ML Engineer. Model tier: reasoning."
 tools: read, write, edit, bash, grep, find
 model_tier: reasoning
 ---

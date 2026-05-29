@@ -1,6 +1,6 @@
 ---
 name: priscila
-description: ARAYA agent: Technical Writer. Model tier: balanced.
+description: "ARAYA agent: Technical Writer. Model tier: balanced."
 tools: read, write, edit
 model_tier: balanced
 ---
