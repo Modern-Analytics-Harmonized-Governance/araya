@@ -207,6 +207,8 @@ Every phase completion should include: status, confidence (0-1), risks[], blocke
 
 Before declaring any project ready for implementation, verify ALL of the following:
 
+- [ ] **Acceptance Criteria Exist**: Every requirement has explicit, testable acceptance criteria. If gaps exist, Manu runs /skill:po-gap-questionnaire. NO phase starts without ACs.
+- [ ] **QA Verified ACs**: Teresa/Priya have confirmed acceptance criteria are objective, measurable, verifiable, testable
 - [ ] **Manu Approved (Pre-Implementation)**: Product Owner has approved requirements, acceptance criteria, and scope
 - [ ] **Team Assembled**: Every task has an assigned agent with the right skills
 - [ ] **Deep-Dive Complete**: You have reviewed each assigned agent's prompt and skills

@@ -36,6 +36,7 @@ approval.
   - SDD: Vision + Requirements (all functional + non-functional)
   - BDD: Gherkin features covering all requirements
   - TDD: Test cases, framework, execution strategy
+  - **Acceptance Criteria: Every requirement has explicit, testable ACs. If gaps: Manu must run /skill:po-gap-questionnaire before implementation.**
   - Architecture: Reviewed by Aisha/Lin/Junia as appropriate
   - Security: Diana has reviewed and signed off
   - Documentation: Priscila assigned for ADRs, API docs, READMEs
