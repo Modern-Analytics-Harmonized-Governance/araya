@@ -182,3 +182,29 @@ amendments but may not enact them.
 | REAL-003 | OBLIGATION | Operational is not Independently Verified |
 | REAL-004 | OBLIGATION | Work without run records is a governance violation |
 | REAL-005 | OBLIGATION | Governance rules must be measurable |
+
+### Reality — Repository Truth (REAL)
+
+| ID | Type | Rule |
+|----|------|------|
+| REAL-006 | OBLIGATION | Repository is the default source of truth |
+| REAL-007 | OBLIGATION | Every report must explicitly declare: Workspace, Feature Branch, dev-mahg, main, Release Tag, Production |
+| REAL-008 | OBLIGATION | A capability cannot be reported as completed unless it exists in the target branch |
+| REAL-009 | OBLIGATION | Working tree changes are not considered delivered |
+| REAL-010 | OBLIGATION | Uncommitted work is not considered project progress |
+
+### Branch Governance (BRANCH)
+
+| ID | Type | Rule |
+|----|------|------|
+| BRANCH-001 | OBLIGATION | feature/* → dev-mahg → main |
+| BRANCH-002 | PROHIBITION | Direct commits to main are governance violations |
+| BRANCH-003 | OBLIGATION | Status reports must identify the branch assessed |
+| BRANCH-004 | OBLIGATION | Readiness scores are calculated from repository state, not workspace state |
+| BRANCH-005 | OBLIGATION | Merged feature branches must be deleted both locally and remotely |
+| BRANCH-006 | OBLIGATION | Only main and dev-mahg are permanent branches |
+| BRANCH-007 | OBLIGATION | A feature branch may contain only one approved objective or batch |
+| BRANCH-008 | OBLIGATION | Readiness scores may only be calculated from dev-mahg or main |
+| BRANCH-009 | OBLIGATION | A capability is not delivered until it exists in dev-mahg |
+| BRANCH-010 | OBLIGATION | A capability is not released until it exists in main |
+| BRANCH-011 | OBLIGATION | Merged feature branches must be flagged for deletion by governance-check |
