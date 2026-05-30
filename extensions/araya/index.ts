@@ -846,6 +846,83 @@ export default function (pi: ExtensionAPI) {
     },
   });
 
+  // ── /araya:metrics ───────────────────────────────────────────────────────
+
+  pi.registerCommand("araya:metrics", {
+    description: "📊 Show governance metrics and delivery health score",
+    handler: async (args, ctx) => {
+      const cwd = process.cwd();
+      const { existsSync, readdirSync, readFileSync } = await import("node:fs");
+      const { resolve } = await import("node:path");
+
+      const isSummary = args?.trim() === "--summary";
+      const changesDir = resolve(cwd, ".araya/changes");
+      const specsDir = resolve(cwd, ".araya/specs");
+
+      let totalREQ = 0, totalAC = 0, totalTASK = 0, passedAC = 0, failedAC = 0, pendingAC = 0;
+      let lifecycle: Record<string, number> = { draft: 0, planned: 0, approved: 0, executing: 0, review: 0, validated: 0, archived: 0 };
+
+      for (const baseDir of [changesDir, specsDir]) {
+        if (!existsSync(baseDir)) continue;
+        for (const entry of readdirSync(baseDir, { withFileTypes: true })) {
+          if (!entry.isDirectory()) continue;
+          const p = resolve(baseDir, entry.name);
+
+          // Count lifecycle from proposal.md
+          const proposalPath = resolve(p, "proposal.md");
+          if (existsSync(proposalPath)) {
+            const content = readFileSync(proposalPath, "utf-8");
+            const statusMatch = content.match(/status:\s*(\w+)/);
+            if (statusMatch) {
+              const s = statusMatch[1].toLowerCase();
+              if (lifecycle[s] !== undefined) lifecycle[s]++;
+            }
+          }
+
+          // Count ACs from acceptance.md
+          const acPath = resolve(p, "acceptance.md");
+          if (existsSync(acPath)) {
+            const content = readFileSync(acPath, "utf-8");
+            const acs = content.match(/AC-\d+/g) ?? [];
+            totalAC += acs.length;
+            passedAC += (content.match(/\|\s*Passed\s*\|/gi) ?? []).length;
+            failedAC += (content.match(/\|\s*Failed\s*\|/gi) ?? []).length;
+            pendingAC += (content.match(/\|\s*Pending\s*\|/gi) ?? []).length;
+            totalREQ += (content.match(/REQ-\d+/g) ?? []).length;
+            totalTASK += (content.match(/TASK-\d+/g) ?? []).length;
+          }
+        }
+      }
+
+      const valCoverage = totalAC > 0 ? Math.round((passedAC / totalAC) * 100) : 0;
+      const traceCoverage = totalREQ > 0 ? Math.round((totalAC / Math.max(totalREQ, 1)) * 100) : 0;
+      const totalChanges = Object.values(lifecycle).reduce((a, b) => a + b, 0);
+      const completedChanges = (lifecycle.validated || 0) + (lifecycle.archived || 0);
+      const lcCompletion = totalChanges > 0 ? Math.round((completedChanges / totalChanges) * 100) : 0;
+      const healthScore = Math.round(valCoverage * 0.4 + traceCoverage * 0.4 + lcCompletion * 0.2);
+      const tier = healthScore >= 95 ? "🟢 GREEN" : healthScore >= 80 ? "🟡 YELLOW" : "🔴 RED";
+
+      const lines = ["## Governance Metrics", "",
+        `**Requirements:** ${totalREQ} | **Acceptance Criteria:** ${totalAC} | **Tasks:** ${totalTASK}`,
+        `**Validation Coverage:** ${valCoverage}% (${passedAC} passed / ${totalAC} total)`,
+        `**Traceability Coverage:** ${traceCoverage}%`,
+        `**Lifecycle Completion:** ${lcCompletion}%`,
+        "",
+        `**Delivery Health:** ${tier} (Score: ${healthScore}/100)`,
+      ];
+
+      if (!isSummary) {
+        lines.push("", "### Lifecycle",
+          `Draft: ${lifecycle.draft} | Planned: ${lifecycle.planned} | Approved: ${lifecycle.approved}`,
+          `Executing: ${lifecycle.executing} | Review: ${lifecycle.review} | Validated: ${lifecycle.validated} | Archived: ${lifecycle.archived}`);
+      }
+
+      if (healthScore < 80) lines.push("", "⚠️ Health score below threshold. Review required before delivery.");
+
+      ctx.ui.notify(lines.join("\n"), healthScore >= 95 ? "info" : healthScore >= 80 ? "warning" : "warning");
+    },
+  });
+
   // ── Log ─────────────────────────────────────────────────────────────────
 
   if (process.env.ARAYA_DEBUG) {
