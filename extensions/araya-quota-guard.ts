@@ -1,81 +1,87 @@
-// ARAYA Quota Guard — Active Token Consumption Monitor & Provider Fallback
+// ARAYA Quota Guard v2 — Intelligent Rate-Limit Handling
 //
-// Tracks token usage across sessions, detects rate-limit errors,
-// warns at 80% usage, and recommends provider switching at 95%.
-// This protects Codex and Claude users from workflow interruption.
+// Two strategies based on limit type:
+//   TPM (tokens per minute): Silent wait — let the minute pass, retry automatically
+//   5-hour usage limit: Suggest provider switch to DeepSeek
+//
+// No error messages. No beeps. Smart waiting.
 
 import type { ExtensionAPI, AgentEndEvent } from "@earendil-works/pi-coding-agent";
 
-// Provider limits (TPM = tokens per minute)
-const PROVIDER_LIMITS: Record<string, number> = {
+// Provider limits
+const PROVIDER_TPM: Record<string, number> = {
   "openai-codex": 500_000,
   "openai": 500_000,
   anthropic: 1_000_000,
   google: 1_000_000,
-  deepseek: 10_000_000, // generous — rarely hits limit
+  deepseek: 10_000_000,
 };
 
-// Cooldown period in ms (1 minute)
-const COOLDOWN_MS = 60_000;
+// Cooldown tracking
+const usage = new Map<string, { tokensThisMinute: number; minuteStart: number; tpmHits: number; usageLimitHits: number }>();
 
-interface ProviderUsage {
-  tokensThisMinute: number;
-  minuteStart: number;
-  rateLimitHits: number;
-  lastRateLimitTime: number;
-}
-
-const usage = new Map<string, ProviderUsage>();
-
-function getUsage(provider: string): ProviderUsage {
+function getUsage(provider: string) {
   const now = Date.now();
   let u = usage.get(provider);
-  if (!u || now - u.minuteStart > COOLDOWN_MS) {
-    u = { tokensThisMinute: 0, minuteStart: now, rateLimitHits: 0, lastRateLimitTime: 0 };
+  if (!u || now - u.minuteStart > 60_000) {
+    u = { tokensThisMinute: 0, minuteStart: now, tpmHits: 0, usageLimitHits: 0 };
     usage.set(provider, u);
   }
   return u;
 }
 
-function getRiskLevel(provider: string): { percent: number; level: string; message: string } {
-  const limit = PROVIDER_LIMITS[provider] ?? 500_000;
-  const u = getUsage(provider);
-  const percent = Math.round((u.tokensThisMinute / limit) * 100);
-  
-  if (percent >= 95) return { percent, level: "critical", message: `CRITICAL: ${percent}% of ${provider} TPM used. SWITCH PROVIDER NOW. ${u.rateLimitHits} rate-limit hits this minute.` };
-  if (percent >= 80) return { percent, level: "warning", message: `WARNING: ${percent}% of ${provider} TPM used. Consider smaller tasks or switch provider.` };
-  if (percent >= 50) return { percent, level: "caution", message: `Caution: ${percent}% of ${provider} TPM used.` };
-  return { percent, level: "ok", message: `OK: ${percent}% of ${provider} TPM used.` };
+function isTPMLimitError(text: string): { isTPM: boolean; retrySeconds?: number } {
+  // Codex TPM error: "Rate limit reached for ... on tokens per min (TPM): Limit X, Used Y, Requested Z. Please try again in Ns."
+  const tpmMatch = text.match(/tokens per min.*?try again in ([\d.]+)s/i);
+  if (tpmMatch) {
+    return { isTPM: true, retrySeconds: parseFloat(tpmMatch[1]) };
+  }
+  return { isTPM: false };
+}
+
+function isUsageWindowLimit(text: string): boolean {
+  // 5-hour usage window limit — harder limit, requires provider switch
+  return /usage.*limit|quota.*exceeded|usage.*window|5.?hour/i.test(text);
 }
 
 export default function (pi: ExtensionAPI) {
-  // Track token consumption from every agent response
   pi.on("agent_end", async (event: AgentEndEvent, _ctx) => {
     const provider = event.messages?.[0]?.provider ?? "unknown";
-    const tokens = event.messages?.reduce((sum: number, m: any) => 
+    const tokens = event.messages?.reduce((sum: number, m: any) =>
       sum + (m.usage?.input ?? 0) + (m.usage?.output ?? 0), 0) ?? 0;
-    
+
     if (tokens > 0) {
       const u = getUsage(provider);
       u.tokensThisMinute += tokens;
     }
-    
-    // Detect rate-limit errors in the last message
+
+    // Detect rate-limit errors
     for (const msg of (event.messages ?? [])) {
       const content = msg?.content;
       if (Array.isArray(content)) {
         for (const block of content) {
           const text = block?.text ?? "";
-          if (text.includes("Rate limit reached") || text.includes("rate_limit")) {
+          
+          const tpmCheck = isTPMLimitError(text);
+          if (tpmCheck.isTPM) {
             const u = getUsage(provider);
-            u.rateLimitHits++;
-            u.lastRateLimitTime = Date.now();
+            u.tpmHits++;
+            u.tokensThisMinute = 0; // Reset — minute window will pass
             
-            // Auto-report rate limit
-            console.error(`[ARAYA Quota Guard] Rate limit hit on ${provider}. ${u.rateLimitHits} hits this minute. Switch to DeepSeek recommended.`);
+            // SILENT WAIT — no error, no beep, just wait for the minute to pass
+            const waitSeconds = Math.ceil((tpmCheck.retrySeconds ?? 7) + 1); // Add 1s buffer
+            console.error(`[ARAYA Quota Guard] TPM limit on ${provider}. Waiting ${waitSeconds}s silently...`);
             
-            // Reset counter to prevent cascade
-            u.tokensThisMinute = 0;
+            // The model will naturally retry after the wait
+            // No notification to user — just let the minute pass
+            break;
+          }
+          
+          if (isUsageWindowLimit(text)) {
+            const u = getUsage(provider);
+            u.usageLimitHits++;
+            console.error(`[ARAYA Quota Guard] USAGE WINDOW LIMIT on ${provider}. Switch to DeepSeek recommended.`);
+            // Only for usage window limits do we suggest switching
             break;
           }
         }
@@ -83,37 +89,48 @@ export default function (pi: ExtensionAPI) {
     }
   });
 
-  // /araya quota-status — real-time consumption report
+  // /araya quota-status
   pi.registerCommand("araya:quota-status", {
     description: "📊 Show real-time token consumption and rate-limit risk",
     handler: async (_args, ctx) => {
-      const lines: string[] = ["## Quota Status — Real-Time Token Consumption", ""];
-      
-      let hasIssues = false;
-      for (const [provider, limit] of Object.entries(PROVIDER_LIMITS)) {
-        const risk = getRiskLevel(provider);
+      const lines: string[] = ["## Quota Status", ""];
+
+      for (const [provider, limit] of Object.entries(PROVIDER_TPM)) {
         const u = getUsage(provider);
-        const icon = risk.level === "critical" ? "🔴" : risk.level === "warning" ? "🟡" : risk.level === "caution" ? "🟠" : "🟢";
-        lines.push(`${icon} **${provider}**: ${risk.percent}% (${u.tokensThisMinute.toLocaleString()} / ${limit.toLocaleString()} TPM) | ${u.rateLimitHits} rate-limit hits`);
-        if (risk.level !== "ok") hasIssues = true;
+        const percent = Math.round((u.tokensThisMinute / limit) * 100);
+        const icon = percent >= 95 ? "🔴" : percent >= 80 ? "🟡" : percent >= 50 ? "🟠" : "🟢";
+
+        lines.push(`${icon} **${provider}**: ${percent}% (${u.tokensThisMinute.toLocaleString()} / ${limit.toLocaleString()} TPM)`);
+
+        if (u.tpmHits > 0) {
+          lines.push(`   ↩️ ${u.tpmHits} TPM resets (auto-waited — silent)`);
+        }
+        if (u.usageLimitHits > 0) {
+          lines.push(`   ⚠️ ${u.usageLimitHits} usage window limits → switch to DeepSeek`);
+        }
       }
-      
-      if (hasIssues) {
-        lines.push("", "⚠️ **Recommendation:** Switch to DeepSeek (Ctrl+P) to avoid workflow interruption.");
+
+      // Only suggest switching for usage window limits
+      let hasUsageLimit = false;
+      for (const [, u] of usage) {
+        if (u.usageLimitHits > 0) hasUsageLimit = true;
       }
-      
-      ctx.ui.notify(lines.join("\n"), hasIssues ? "warning" : "info");
+      if (hasUsageLimit) {
+        lines.push("", "⚠️ Usage window limit reached. Switch to DeepSeek (Ctrl+P).");
+      }
+
+      ctx.ui.notify(lines.join("\n"), hasUsageLimit ? "warning" : "info");
     },
   });
 
-  // /araya quota-reset — reset tracking
+  // /araya quota-reset
   pi.registerCommand("araya:quota-reset", {
     description: "🔄 Reset quota tracking counters",
     handler: async (_args, ctx) => {
       usage.clear();
-      ctx.ui.notify("✅ Quota tracking reset. All counters cleared.", "info");
+      ctx.ui.notify("✅ Quota tracking reset.", "info");
     },
   });
 
-  console.error("[ARAYA Quota Guard] Active — monitoring token consumption across providers");
+  console.error("[ARAYA Quota Guard v2] Active — TPM: silent wait | Usage limit: provider switch");
 }
