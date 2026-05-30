@@ -4,7 +4,7 @@
 </div>
 
 <p align="center">
-    <strong>25 specialized AI agents. 113 skills. 12 domains. One pi session. Solo development becomes team development.</strong>
+    <strong>25 specialized AI agents. 120 skills. 12 domains. One pi session. Solo development becomes team development.</strong>
 </p>
 
 <p align="center">
@@ -360,7 +360,7 @@ ARAYA
 ├── Circuit Breaker Engine (failure thresholds, retry limits)
 ├── Delegation Engine (subagent spawning with isolated contexts)
 ├── DependencyAnalyzer (DAG-aware phase optimization)
-└── 24 Specialized Agents across 12 domains
+└── 25 Specialized Agents across 12 domains
 ```
 
 ### Governance Pipeline
@@ -391,7 +391,7 @@ Every artifact is traceable. Orphan detection via `/araya trace --validate`. Ful
 ### Constitutional Governance
 
 ```
-The Constitution — 17 rules, 4 types, 6 domains
+The Constitution — 111 rules, 4 types, 14 domains
 ```
 
 ARAYA is governed by a constitution — the highest authority below The Data Professor.
@@ -506,7 +506,7 @@ Then `/reload` and you're ready.
 |------|--------|
 | Extensions | Symlinks ARAYA + subagent + notifier to `~/.pi/agent/extensions/` |
 | Agents | Copies 24 agent definitions to `~/.pi/agent/agents/` |
-| Skills | Symlinks 108 skills to `~/.pi/agent/skills/araya/` |
+| Skills | Symlinks 120 skills to `~/.pi/agent/skills/araya/` |
 | Prompts | Symlinks prompt templates to `~/.pi/agent/prompts/araya/` |
 | Config | Copies `araya.yaml` (single source of truth for version) |
 
@@ -521,7 +521,7 @@ araya/
 ├── extensions/araya/       # ARAYA pi extension (command handlers)
 ├── .pi/agents/             # 24 agent definitions (YAML frontmatter)
 ├── prompts/agents/         # 24 personality prompt templates
-├── skills/                 # 104 SKILL.md files across 12 domains
+├── skills/                 # 120 SKILL.md files across 12 domains
 ├── src/araya/v2/           # Orchestration engine (TypeScript)
 │   └── engines/            # Workflow, model, quality, budget, circuit, delegation
 ├── tests/                  # Smoke tests
