@@ -1099,6 +1099,57 @@ export default function (pi: ExtensionAPI) {
     },
   });
 
+  // ── /araya:graph ─────────────────────────────────────────────────────────
+
+  pi.registerCommand("araya:graph", {
+    description: "🔗 Show organizational knowledge graph",
+    handler: async (args, ctx) => {
+      const cwd = process.cwd();
+      const { existsSync, readdirSync } = await import("node:fs");
+      const { resolve } = await import("node:path");
+
+      const graphDir = resolve(cwd, ".araya/graph");
+      const entities = existsSync(resolve(graphDir, "entities")) ? readdirSync(resolve(graphDir, "entities")).length : 0;
+      const relationships = existsSync(resolve(graphDir, "relationships")) ? readdirSync(resolve(graphDir, "relationships")).length : 0;
+
+      const searchTerm = args?.startsWith("--search ") ? args.slice(10).replace(/"/g, "") : null;
+      const showEntity = args?.startsWith("--show ") ? args.slice(7).replace(/"/g, "") : null;
+      const impactEntity = args?.startsWith("--impact ") ? args.slice(9).replace(/"/g, "") : null;
+
+      if (searchTerm || showEntity || impactEntity) {
+        const label = searchTerm || showEntity || impactEntity;
+        ctx.ui.notify(
+          `## Graph: ${label}\n\n` +
+          `**Entities:** ${entities} | **Relationships:** ${relationships}\n\n` +
+          `Use /araya ask for organizational queries and impact analysis.`,
+          "info"
+        );
+      } else {
+        ctx.ui.notify(
+          `## Organizational Knowledge Graph\n\n` +
+          `**Entities:** ${entities} | **Relationships:** ${relationships}\n\n` +
+          `Use --search, --show, --impact for queries.`,
+          "info"
+        );
+      }
+    },
+  });
+
+  pi.registerCommand("araya:ask", {
+    description: "❓ Ask organizational questions using graph + capabilities + trajectories",
+    handler: async (args, ctx) => {
+      const question = args?.trim() || "";
+      if (!question) { ctx.ui.notify("Usage: /araya ask \"<question>\"", "warning"); return; }
+      const estebanPrompt = buildAgentPrompt(config, "esteban", [
+        `## Organizational Query`,
+        `**Question:** ${question}`,
+        `Answer using: organizational knowledge graph, capability registry, golden trajectories, technology preferences, and constitutional rules.`,
+        `Provide: recommended agents, relevant skills, successful trajectories, related standards, and reasoning.`,
+      ].join("\n"));
+      pi.sendUserMessage(estebanPrompt);
+    },
+  });
+
   // ── Log ─────────────────────────────────────────────────────────────────
 
   if (process.env.ARAYA_DEBUG) {

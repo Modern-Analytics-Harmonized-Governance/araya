@@ -1,49 +1,38 @@
 ---
 name: knowledge-graph
-description: "Build and maintain knowledge graphs — entity extraction, relationship mapping,"
+description: "ARAYA Organizational Knowledge Graph — entity-relationship governance, impact analysis, and organizational query engine."
 ---
----
 
-# Knowledge Graph
+# Organizational Knowledge Graph
 
-Build and maintain knowledge graphs — entity extraction, relationship mapping,
-and semantic linking — connecting ideas, notes, and references into a
-traversable network of understanding.
+Transform isolated artifacts into connected knowledge. Every agent, skill,
+technology, project, requirement, and trajectory is a node. Every ownership,
+dependency, preference, and influence is an edge.
 
-## What problem this solves
-Isolated notes are islands; knowledge graphs connect them into continents. When
-every concept links to related concepts, discovery is effortless — finding
-everything you know about a topic becomes a graph traversal, not a search.
+## Entity Types
 
-## When to use
-When organizing personal knowledge (notes, ideas, references). When mapping
-domain expertise. When The Data Professor wants to see how concepts connect.
+Agent, Skill, Capability, Technology, Project, Requirement,
+AcceptanceCriteria, Task, Evidence, Delivery, Trajectory, Pattern,
+ADR, Standard, Rule, Domain
 
-## Input
-Notes, documents, ideas, with tags and backlinks.
+## Relationship Types
 
-## Output
-A knowledge graph with entities (nodes), relationships (edges), and metadata.
+OWNS, USES, IMPLEMENTS, VALIDATES, REVIEWS, PARTICIPATED_IN,
+DEPENDS_ON, GENERATED, RECOMMENDS, LEARNED_FROM, RELATED_TO,
+REQUIRES, GOVERNS, PREFERS, INFLUENCES
 
-## Steps
-1. Extract entities from notes: concepts, people, projects, technologies, decisions
-2. Identify relationships: "depends on," "references," "implements," "supersedes"
-3. Structure with backlinks: every note links to related notes
-4. Organize with Maps of Content (MOCs): index notes that aggregate related concepts
-5. Visualize: graph view showing connections and clusters
-6. Maintain: update links when new notes are created, prune obsolete connections
+## Commands
+
+- `/araya graph` — entity and relationship summary
+- `/araya graph --search "<term>"` — search by entity name or type
+- `/araya graph --show "<entity>"` — detailed entity view with relationships
+- `/araya graph --impact "<entity>"` — impact analysis (agents, skills, projects, standards affected)
+- `/araya graph --visualize "<entity>"` — generate Mermaid relationship diagram
+- `/araya ask "<question>"` — organizational query engine using graph + capabilities + constitution + trajectories
 
 ## Rules
-- Every note links to at least one other note — no orphan knowledge
-- Bi-directional links: if Note A references Note B, both should show the connection
-- Maps of Content (MOCs) aggregate related concepts — they're indexes, not notes
-- Tags categorize (broad); links connect (specific) — use both
-- Knowledge graph is for finding, not for showing off — optimize for retrieval
-- Prune quarterly: remove obsolete links, update changed relationships
-- Coordinate with Esteban (knowledge management) and daily-note (capture)
-## Done Criteria
 
-- [ ] All steps completed as specified
-- [ ] Output validated against requirements
-- [ ] Status reported with confidence score
-- [ ] Evidence artifacts captured
+- Graph is file-based and deterministic — no external databases
+- Relationships are generated from existing artifacts (specs, preferences, metrics, trajectories)
+- Graph recommendations never override constitutional rules
+- Impact analysis is mandatory before major technology or architecture changes
