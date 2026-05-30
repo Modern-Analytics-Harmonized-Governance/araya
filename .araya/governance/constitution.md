@@ -121,3 +121,12 @@ amendments but may not enact them.
 | KNW-002 | OBLIGATION | Golden trajectories are organizational assets |
 | KNW-003 | OBLIGATION | Lessons learned must remain auditable |
 | KNW-004 | PROHIBITION | Trajectory recommendations must never override constitutional rules |
+
+### Graph (GRAPH)
+
+| ID | Type | Rule |
+|----|------|------|
+| GRAPH-001 | OBLIGATION | Organizational relationships must remain traceable |
+| GRAPH-002 | OBLIGATION | Knowledge graph data must be auditable |
+| GRAPH-003 | PROHIBITION | Graph recommendations must not override constitutional rules |
+| GRAPH-004 | OBLIGATION | Impact analysis must use graph relationships |
