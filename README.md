@@ -166,12 +166,74 @@ cd araya
 | `/araya <agent> "<task>"` | Delegate a task to a specialist agent |
 | `/araya:status` | Full agent roster with tiers and skills |
 | `/araya:install` | Install ARAYA on this machine |
-| `/araya trace` | Show end-to-end traceability tree from REQ to CR |
-| `/araya trace --validate` | Detect orphan requirements, ACs, and broken references |
-| `/araya constitution` | Show ARAYA Constitution — rules, types, and governance |
-| `/araya constitution --validate` | Validate constitutional compliance |
 | `/araya help` | Complete command manual |
+| `/araya version` | Show version and release path |
+
+### Context & Reconstitution
+
+| Command | Description |
+|---------|-------------|
+| `/araya compact` | Context capsule — active standards, violations, repository truth |
+| `/araya handoff` | Agent-to-agent delegation handoff document |
+| `/araya reconstitute` | Reset project context to repository truth |
+
+### Governance & Validation
+
+| Command | Description |
+|---------|-------------|
+| `/araya validate` | Validate delivery against acceptance criteria |
+| `/araya validate --summary` | Compact validation coverage summary |
+| `/araya constitution` | Show ARAYA Constitution — rules, types, governance |
+| `/araya constitution --validate` | Validate constitutional compliance |
+| `/araya release-check` | Validate version compliance with MAHG Standard |
+
+### Delivery Review
+
+| Command | Description |
+|---------|-------------|
 | `/araya review-delivery <id>` | Create DRR → IAR → CR for post-delivery feedback |
+| `/araya generate-uat <id>` | Generate UAT package from requirements + ACs |
+| `/araya review-uat <id>` | Review UAT package for completeness |
+| `/araya uat-status <id>` | Show UAT status for a delivery |
+
+### Traceability & Graph
+
+| Command | Description |
+|---------|-------------|
+| `/araya trace` | End-to-end traceability tree from REQ to CR |
+| `/araya trace --validate` | Detect orphan requirements and broken references |
+| `/araya graph` | Organizational knowledge graph summary |
+| `/araya ask "<question>"` | Organizational query using graph + capabilities |
+
+### Knowledge & Learning
+
+| Command | Description |
+|---------|-------------|
+| `/araya knowledge` | Organizational knowledge summary |
+| `/araya knowledge --search "<term>"` | Search standards, ADRs, lessons |
+| `/araya learn "<lesson>"` | Capture structured organizational lesson |
+| `/araya trajectory` | Golden trajectory summary |
+| `/araya improve` | Analyze trajectories for process improvements |
+
+### Metrics & Efficiency
+
+| Command | Description |
+|---------|-------------|
+| `/araya metrics` | Governance metrics and delivery health score |
+| `/araya budget-status` | Token consumption and rate-limit risk |
+| `/araya optimize-task "<task>"` | Analyze for token efficiency |
+| `/araya efficiency-report` | Token efficiency metrics report |
+
+### Team & Routing
+
+| Command | Description |
+|---------|-------------|
+| `/araya team:recommend "<task>"` | Recommend optimal team |
+| `/araya team:assemble "<task>"` | Assemble team with role assignments |
+| `/araya team:risk` | Workforce risk analysis |
+| `/araya route "<task>"` | Recommend provider + model |
+| `/araya provider:list` | Registered AI providers |
+| `/araya spec:init` | Initialize specification structure |
 
 ### Run Flags
 
