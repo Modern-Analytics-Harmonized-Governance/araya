@@ -57,15 +57,9 @@ fi
 
 # Notifier
 if [ -f "$CANONICAL/extensions/araya-notifier.ts" ]; then
-  if [ "$FORCE" = true ]; then
-    rm -f "$EXT_DIR/araya-notifier.ts" 2>/dev/null || true
-  fi
-  if [ -e "$EXT_DIR/araya-notifier.ts" ]; then
-    echo "  [SKIP] notifier (exists)"
-  else
-    ln -sf "$CANONICAL/extensions/araya-notifier.ts" "$EXT_DIR/araya-notifier.ts"
-    echo "  [OK] notifier installed"
-  fi
+  rm -f "$EXT_DIR/araya-notifier.ts" 2>/dev/null || true
+  ln -sf "$CANONICAL/extensions/araya-notifier.ts" "$EXT_DIR/araya-notifier.ts"
+  echo "  [OK] notifier installed"
 fi
 
 # araya.yaml
