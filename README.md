@@ -442,7 +442,7 @@ ARAYA
 ├── Circuit Breaker Engine (failure thresholds, retry limits)
 ├── Delegation Engine (subagent spawning with isolated contexts)
 ├── DependencyAnalyzer (DAG-aware phase optimization)
-└── 25 Specialized Agents across 12 domains
+└── 26 Specialized Agents across 12 domains
 ```
 
 ### Governance Pipeline
