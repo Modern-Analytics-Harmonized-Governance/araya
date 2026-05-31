@@ -71,11 +71,11 @@ and governance are non-negotiable.
 
 ## Summary
 
-- **Total Rules:** 17
-- **Obligations:** 10
-- **Prohibitions:** 3
-- **Permissions:** 1
-- **Escalations:** 3
+- **Total Rules:** 81
+- **Obligations:** 64
+- **Prohibitions:** 9
+- **Permissions:** 4
+- **Escalations:** 4
 
 ## Violation Handling
 
@@ -222,3 +222,9 @@ amendments but may not enact them.
 | CMD-001 | OBLIGATION | No ARAYA command may be documented unless registered, executable, and verified |
 
 | CMD-002 | OBLIGATION | No command may be reported as operational unless executable, tested, and output validated — documentation alone is insufficient |
+
+### Ambiguity (AMB)
+
+| ID | Type | Rule |
+|----|------|------|
+| AMB-001 | ESCALATION | When a request contains inconsistent or conflicting values, requirements, dates, versions, ports, branch names, or acceptance criteria, the receiving agent must not infer intent. The agent must tag the request as INCONSISTENCY, raise its hand, and escalate to the superior agent in its chain of command. The superior agent takes leadership and resolves the inconsistency before any work proceeds. |
