@@ -36,6 +36,7 @@ and governance are non-negotiable.
 | DOC-002 | OBLIGATION | Commands must be documented |
 | DOC-003 | OBLIGATION | Examples must be maintained |
 | DOC-004 | OBLIGATION | Mermaid and SVG must remain synchronized |
+| DOC-005 | OBLIGATION | Every document must include a human-friendly timestamp with date and time, not date alone. ISO 8601 with timezone offset is canonical: `YYYY-MM-DD HH:MM:SS ±HH:MM`. Acceptable shorthand in collaborative contexts: `YYYY-MM-DD HH:MM TZ`. A date without a timestamp is ambiguous. |
 
 ### Security (SEC)
 
@@ -71,8 +72,8 @@ and governance are non-negotiable.
 
 ## Summary
 
-- **Total Rules:** 81
-- **Obligations:** 64
+- **Total Rules:** 82
+- **Obligations:** 65
 - **Prohibitions:** 9
 - **Permissions:** 4
 - **Escalations:** 4
